@@ -140,11 +140,41 @@ out_txtbox.grid(row=2, column=0, columnspan=5, sticky=tk.NSEW)
 
 
 
+# make copy btn and func
+def copy_clicked():
+    print("You copied the text!")
 
-# make Button - copy
+copy_btn = ttk.Button(
+    root,
+    padding=10,
+    text="Copy",
+    command=copy_clicked
+)
+copy_btn.grid(row=3, column=2, sticky=tk.NSEW)
 
-# make Button - clear
+# make clear btn and func
+def clear_clicked():
+    print("You cleared the text!")
 
-# make Button - info
+clear_btn = ttk.Button(
+    root,
+    padding=10,
+    text="Clear",
+    command=clear_clicked
+)
+clear_btn.grid(row=3, column=0, sticky=tk.NSEW)
+
+# make info btn and func
+def info_clicked():
+    print("You got info!")
+
+info_btn = ttk.Button(
+    root,
+    padding=10,
+    text="Info",
+    command=info_clicked
+)
+info_btn.grid(row=3, column=4, sticky=tk.NSEW)
+
 
 root.mainloop()
