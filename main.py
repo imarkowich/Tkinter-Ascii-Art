@@ -24,9 +24,10 @@ root.geometry(f"{window_width}x{window_height}+{center_x}+{center_y}")
 
 # root grid
 root.rowconfigure(0, weight=1)
-root.rowconfigure(1, weight=2)
+root.rowconfigure(1, weight=1)
 root.rowconfigure(2, weight=3)
 root.rowconfigure(3, weight=1)
+root.rowconfigure(4, weight=1)
 
 root.columnconfigure(0, weight=1)
 root.columnconfigure(1, weight=1)
@@ -38,7 +39,7 @@ root.columnconfigure(4, weight=1)
 
 # make labels - title and directions (in a frame)
 title_frm = ttk.Frame(root)
-title_frm.grid(row=0, column=2)
+title_frm.grid(row=0, column=0, columnspan=5)
 
 # title label
 title_lbl = ttk.Label(
@@ -71,6 +72,20 @@ directions_lbl.pack(
 
 
 # make Entry - input text
+input_txt = tk.StringVar()
+input_ent = ttk.Entry(
+    root,
+    textvariable=input_txt,
+)
+input_ent.grid(
+    row=1, 
+    column=0, 
+    columnspan=3, 
+    sticky=tk.NSEW
+)
+
+
+
 
 # make Listbox/Scrollbar - font choose
 
