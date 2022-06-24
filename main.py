@@ -86,8 +86,47 @@ input_ent.grid(
 
 
 
+# make Listbox/Scrollbar Frame - font choose
+font_frm = ttk.Frame(root)
+font_frm.grid(row=1, column=3, columnspan=2, sticky=tk.NSEW)
 
-# make Listbox/Scrollbar - font choose
+# temporary font list
+my_fonts = ['alpha', 'beta', 'gamma', 'delta', 'epsilon',
+    'eta', 'zeta', 'theta', 'greek', 'letters', 'and', 'such']
+font_var = tk.StringVar(value=my_fonts)   
+
+# listbox
+font_lbox = tk.Listbox(
+    font_frm,
+    listvariable=font_var,
+    height=5,
+    selectmode='browse'
+)
+font_lbox.pack(
+    fill="both",
+    expand=True,
+    side="left",
+)
+
+# slider
+font_scr = tk.Scrollbar(
+    font_frm,
+    orient='vertical',
+    command=font_lbox.yview
+)
+font_scr.pack(
+    ipadx=5,
+    fill="both",
+    side="left"
+)
+font_lbox['yscrollcommand'] = font_scr.set
+
+# listbox function
+def font_selected(event):
+    cur_font = font_lbox.get(font_lbox.curselection())
+    print(f"You chose {cur_font} as your font.")
+
+font_lbox.bind('<<ListboxSelect>>', font_selected)
 
 # make Text - ascii output
 
