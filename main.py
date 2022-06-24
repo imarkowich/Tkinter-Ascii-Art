@@ -128,7 +128,18 @@ def font_selected(event):
 
 font_lbox.bind('<<ListboxSelect>>', font_selected)
 
+
+
 # make Text - ascii output
+out_txtbox = tk.Text(
+    root,
+    height=8,
+    state='disabled'
+)
+out_txtbox.grid(row=2, column=0, columnspan=5, sticky=tk.NSEW)
+
+
+
 
 # make Button - copy
 
