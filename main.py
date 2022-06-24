@@ -7,7 +7,7 @@ from tkinter import ttk
 root = tk.Tk()
 root.title('Tkinter Ascii Art')
 root.iconbitmap("./assets/duck.ico")
-root.resizable(0, 0)
+#root.resizable(0, 0)
 
 # root geometry
 window_width = 700
@@ -22,7 +22,53 @@ center_y = int(screen_height / 2 - window_height / 2) - y_offset
 
 root.geometry(f"{window_width}x{window_height}+{center_x}+{center_y}")
 
-# make labels - title and directions
+# root grid
+root.rowconfigure(0, weight=1)
+root.rowconfigure(1, weight=2)
+root.rowconfigure(2, weight=3)
+root.rowconfigure(3, weight=1)
+
+root.columnconfigure(0, weight=1)
+root.columnconfigure(1, weight=1)
+root.columnconfigure(2, weight=1)
+root.columnconfigure(3, weight=1)
+root.columnconfigure(4, weight=1)
+
+
+
+# make labels - title and directions (in a frame)
+title_frm = ttk.Frame(root)
+title_frm.grid(row=0, column=2)
+
+# title label
+title_lbl = ttk.Label(
+    title_frm, 
+    font=("Times New Roman", 20),
+    text="Ascii Text Generator",
+    anchor=tk.CENTER
+)
+title_lbl.pack(
+    expand=True,
+    fill="both"
+)
+
+# directions label
+directions_str = tk.StringVar(
+    value="Type some text in the textbox below. "
+    "Choose a font from the menu. " 
+    "Copy the output with the Button")
+directions_lbl = ttk.Label(
+    title_frm, 
+    font=("Times New Roman", 12),
+    textvariable=directions_str,
+    anchor=tk.CENTER
+)
+directions_lbl.pack(
+    expand=True,
+    fill="both"
+)
+
+
 
 # make Entry - input text
 
