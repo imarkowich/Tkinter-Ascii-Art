@@ -1,7 +1,7 @@
 # Tkinter Ascii Art
 import tkinter as tk
 from tkinter import ttk
-# from art import *
+import art as art
 
 # make root
 root = tk.Tk()
@@ -72,7 +72,7 @@ directions_lbl.pack(
 
 
 # make Entry - input text
-input_txt = tk.StringVar()
+input_txt = tk.StringVar(value="teext")
 input_ent = ttk.Entry(
     root,
     textvariable=input_txt,
@@ -90,10 +90,11 @@ input_ent.grid(
 font_frm = ttk.Frame(root)
 font_frm.grid(row=1, column=3, columnspan=2, sticky=tk.NSEW)
 
-# temporary font list
-my_fonts = ['alpha', 'beta', 'gamma', 'delta', 'epsilon',
-    'eta', 'zeta', 'theta', 'greek', 'letters', 'and', 'such']
-font_var = tk.StringVar(value=my_fonts)   
+# font list
+ASCII_FONTS = list(set(art.FONT_NAMES) - set(art.NON_ASCII_FONTS))
+ASCII_FONTS.sort()
+font_var = tk.StringVar(value=ASCII_FONTS) 
+
 
 # listbox
 font_lbox = tk.Listbox(
@@ -122,7 +123,9 @@ font_scr.pack(
 font_lbox['yscrollcommand'] = font_scr.set
 
 # listbox function
+cur_font = "bubble"
 def font_selected(event):
+    global cur_font 
     cur_font = font_lbox.get(font_lbox.curselection())
     print(f"You chose {cur_font} as your font.")
 
@@ -131,14 +134,33 @@ font_lbox.bind('<<ListboxSelect>>', font_selected)
 
 
 # make Text - ascii output
-out_txtbox = tk.Text(
-    root,
-    height=8,
-    state='disabled'
+#ascii_txt = art.text2art(str(input_txt), font=cur_font, chr_ignore=True)
+#out_txtbox = tk.Text(
+    #root,
+    #state='disabled'
+    #height=8    
+#)
+#out_txtbox.grid(row=2, column=0, columnspan=5, sticky=tk.NSEW)
+#out_txtbox.insert("1.0", my_text)
+my_text = art.text2art(input_txt.get(), font=cur_font)
+out_str = tk.StringVar(value=my_text)
+out_lbl = ttk.Label(
+    root, 
+    #font=("Times New Roman", 10),
+    text=my_text,
+    anchor=tk.CENTER
 )
-out_txtbox.grid(row=2, column=0, columnspan=5, sticky=tk.NSEW)
+out_lbl.grid(row=2, column=0, columnspan=5, sticky=tk.NSEW)
 
+def my_after(): 
+    my_text2 = art.text2art(input_txt.get(), font=cur_font)
 
+    out_lbl.config(text=my_text2)
+
+    # call again after 100 ms
+    root.after(100, my_after)
+
+my_after()
 
 # make copy btn and func
 def copy_clicked():
