@@ -1,13 +1,14 @@
 # Tkinter Ascii Art
 import tkinter as tk
 from tkinter import ttk
+from tkinter.messagebox import showinfo
 import art as art
+import pyperclip as pc
 
 # make root
 root = tk.Tk()
 root.title('Tkinter Ascii Art')
 root.iconbitmap("./assets/duck.ico")
-#root.resizable(0, 0)
 
 # root geometry
 window_width = 700
@@ -58,7 +59,7 @@ title_lbl.pack(
 directions_str = tk.StringVar(
     value="Type some text in the textbox below. "
     "Choose a font from the menu. " 
-    "Copy the output with the Button")
+    "Copy the output with the Button.")
 directions_lbl = ttk.Label(
     title_frm, 
     font=("Times New Roman", 12),
@@ -153,9 +154,10 @@ out_lbl.pack(
 )
 
 def my_after(): 
-    my_text2 = art.text2art(input_txt.get(), font=cur_font)
+    global my_text
+    my_text = art.text2art(input_txt.get(), font=cur_font)
 
-    out_lbl.config(text=my_text2)
+    out_lbl.config(text=my_text)
 
     # call again after 100 ms
     root.after(100, my_after)
@@ -164,7 +166,8 @@ my_after()
 
 # make copy btn and func
 def copy_clicked():
-    print("You copied the text!")
+    print("You copied the text!") 
+    pc.copy(my_text)
 
 copy_btn = ttk.Button(
     root,
@@ -176,6 +179,8 @@ copy_btn.grid(row=3, column=2, sticky=tk.S)
 
 # make clear btn and func
 def clear_clicked():
+    global input_txt
+    input_txt.set("")
     print("You cleared the text!")
 
 clear_btn = ttk.Button(
@@ -189,6 +194,11 @@ clear_btn.grid(row=3, column=0, sticky=tk.S)
 # make info btn and func
 def info_clicked():
     print("You got info!")
+    log_msg = "Uses Tkinter, Art, and Pyperclip libraries"
+    showinfo(
+        title="Information",
+        message=log_msg
+    )
 
 info_btn = ttk.Button(
     root,
@@ -205,7 +215,7 @@ info_btn.grid(row=3, column=4, sticky=tk.S)
 bottom_str = tk.StringVar(
     value="Type some text in the textbox below. "
     "Choose a font from the menu. " 
-    "Copy the output with the Button")
+    "Copy the output with the Button.")
 bottom_lbl = ttk.Label(
     root, 
     font=("Times New Roman", 12),
