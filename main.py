@@ -50,7 +50,8 @@ title_lbl = ttk.Label(
 )
 title_lbl.pack(
     expand=True,
-    fill="both"
+    fill="both",
+    padx=50
 )
 
 # directions label
@@ -127,30 +128,29 @@ cur_font = "bubble"
 def font_selected(event):
     global cur_font 
     cur_font = font_lbox.get(font_lbox.curselection())
-    print(f"You chose {cur_font} as your font.")
+    #print(f"You chose {cur_font} as your font.")
 
 font_lbox.bind('<<ListboxSelect>>', font_selected)
 
 
 
-# make Text - ascii output
-#ascii_txt = art.text2art(str(input_txt), font=cur_font, chr_ignore=True)
-#out_txtbox = tk.Text(
-    #root,
-    #state='disabled'
-    #height=8    
-#)
-#out_txtbox.grid(row=2, column=0, columnspan=5, sticky=tk.NSEW)
-#out_txtbox.insert("1.0", my_text)
+# make Text Label and Frame - ascii output
+out_frm = ttk.Frame(root)
+out_frm.grid(row=2, column=0, columnspan=5, sticky=tk.NSEW)
+
 my_text = art.text2art(input_txt.get(), font=cur_font)
-out_str = tk.StringVar(value=my_text)
+
 out_lbl = ttk.Label(
-    root, 
-    #font=("Times New Roman", 10),
+    out_frm, 
+    font=("Consolas", 8),
     text=my_text,
     anchor=tk.CENTER
 )
-out_lbl.grid(row=2, column=0, columnspan=5, sticky=tk.NSEW)
+out_lbl.pack(
+    fill="both",
+    expand=True,
+    side="top"
+)
 
 def my_after(): 
     my_text2 = art.text2art(input_txt.get(), font=cur_font)
@@ -172,7 +172,7 @@ copy_btn = ttk.Button(
     text="Copy",
     command=copy_clicked
 )
-copy_btn.grid(row=3, column=2, sticky=tk.NSEW)
+copy_btn.grid(row=3, column=2, sticky=tk.S)
 
 # make clear btn and func
 def clear_clicked():
@@ -184,7 +184,7 @@ clear_btn = ttk.Button(
     text="Clear",
     command=clear_clicked
 )
-clear_btn.grid(row=3, column=0, sticky=tk.NSEW)
+clear_btn.grid(row=3, column=0, sticky=tk.S)
 
 # make info btn and func
 def info_clicked():
@@ -196,7 +196,27 @@ info_btn = ttk.Button(
     text="Info",
     command=info_clicked
 )
-info_btn.grid(row=3, column=4, sticky=tk.NSEW)
+info_btn.grid(row=3, column=4, sticky=tk.S)
 
+
+
+# bottom text
+# directions label
+bottom_str = tk.StringVar(
+    value="Type some text in the textbox below. "
+    "Choose a font from the menu. " 
+    "Copy the output with the Button")
+bottom_lbl = ttk.Label(
+    root, 
+    font=("Times New Roman", 12),
+    textvariable=bottom_str,
+    anchor=tk.CENTER
+)
+bottom_lbl.grid(
+    row=4,
+    column=0,
+    columnspan=5,
+    sticky=tk.NSEW
+)
 
 root.mainloop()
