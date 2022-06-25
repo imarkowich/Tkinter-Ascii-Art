@@ -26,10 +26,8 @@ root.geometry(f"{window_width}x{window_height}+{center_x}+{center_y}")
 # root grid
 root.rowconfigure(0, weight=1)
 root.rowconfigure(1, weight=1)
-root.rowconfigure(2, weight=3)
+root.rowconfigure(2, weight=4)
 root.rowconfigure(3, weight=1)
-root.rowconfigure(4, weight=1)
-
 root.columnconfigure(0, weight=1)
 root.columnconfigure(1, weight=1)
 root.columnconfigure(2, weight=1)
@@ -73,18 +71,68 @@ directions_lbl.pack(
 
 
 
-# make Entry - input text
+# make Entry/Buttons Frame - input text
+in_frm = tk.Frame(root)
+in_frm.grid(row=1, column=0, columnspan=3, sticky=tk.NSEW)
+# in frame grid
+in_frm.columnconfigure(0, weight=1)
+in_frm.columnconfigure(1, weight=1)
+in_frm.columnconfigure(2, weight=1)
+in_frm.rowconfigure(0, weight=1)
+in_frm.rowconfigure(1, weight=1)
+
+# Entry
 input_txt = tk.StringVar(value="teext")
 input_ent = ttk.Entry(
-    root,
+    in_frm,
     textvariable=input_txt,
+    justify=tk.CENTER
 )
-input_ent.grid(
-    row=1, 
-    column=0, 
-    columnspan=3, 
-    sticky=tk.NSEW
+input_ent.grid(row=0, column=0, columnspan=3, sticky=tk.NSEW)
+
+# copy button and func
+def copy_clicked():
+    print("You copied the text!") 
+    pc.copy(my_text)
+
+copy_btn = ttk.Button(
+    in_frm,
+    #padding=10,
+    text="Copy",
+    command=copy_clicked
 )
+copy_btn.grid(row=1, column=1, sticky=tk.NSEW)
+
+# make clear btn and func
+def clear_clicked():
+    global input_txt
+    input_txt.set("")
+    print("You cleared the text!")
+
+clear_btn = ttk.Button(
+    in_frm,
+    #padding=10,
+    text="Clear",
+    command=clear_clicked
+)
+clear_btn.grid(row=1, column=0, sticky=tk.NSEW)
+
+# make info btn and func
+def info_clicked():
+    print("You got info!")
+    log_msg = "Uses Tkinter, Art, and Pyperclip libraries"
+    showinfo(
+        title="Information",
+        message=log_msg
+    )
+
+info_btn = ttk.Button(
+    in_frm,
+    #padding=10,
+    text="Info",
+    command=info_clicked
+)
+info_btn.grid(row=1, column=2, sticky=tk.NSEW)
 
 
 
@@ -110,6 +158,8 @@ font_lbox.pack(
     expand=True,
     side="left",
 )
+
+font_lbox.see(33)
 
 # slider
 font_scr = tk.Scrollbar(
@@ -164,54 +214,9 @@ def my_after():
 
 my_after()
 
-# make copy btn and func
-def copy_clicked():
-    print("You copied the text!") 
-    pc.copy(my_text)
-
-copy_btn = ttk.Button(
-    root,
-    padding=10,
-    text="Copy",
-    command=copy_clicked
-)
-copy_btn.grid(row=3, column=2, sticky=tk.S)
-
-# make clear btn and func
-def clear_clicked():
-    global input_txt
-    input_txt.set("")
-    print("You cleared the text!")
-
-clear_btn = ttk.Button(
-    root,
-    padding=10,
-    text="Clear",
-    command=clear_clicked
-)
-clear_btn.grid(row=3, column=0, sticky=tk.S)
-
-# make info btn and func
-def info_clicked():
-    print("You got info!")
-    log_msg = "Uses Tkinter, Art, and Pyperclip libraries"
-    showinfo(
-        title="Information",
-        message=log_msg
-    )
-
-info_btn = ttk.Button(
-    root,
-    padding=10,
-    text="Info",
-    command=info_clicked
-)
-info_btn.grid(row=3, column=4, sticky=tk.S)
-
 
 
 # bottom text
-# directions label
 bottom_str = tk.StringVar(
     value="Type some text in the textbox below. "
     "Choose a font from the menu. " 
@@ -223,7 +228,7 @@ bottom_lbl = ttk.Label(
     anchor=tk.CENTER
 )
 bottom_lbl.grid(
-    row=4,
+    row=3,
     column=0,
     columnspan=5,
     sticky=tk.NSEW
