@@ -23,22 +23,11 @@ center_y = int(screen_height / 2 - window_height / 2) - y_offset
 
 root.geometry(f"{window_width}x{window_height}+{center_x}+{center_y}")
 
-# root grid
-root.rowconfigure(0, weight=1)
-root.rowconfigure(1, weight=1)
-root.rowconfigure(2, weight=4)
-root.rowconfigure(3, weight=1)
-root.columnconfigure(0, weight=1)
-root.columnconfigure(1, weight=1)
-root.columnconfigure(2, weight=1)
-root.columnconfigure(3, weight=1)
-root.columnconfigure(4, weight=1)
-
 
 
 # make labels - title and directions (in a frame)
-title_frm = ttk.Frame(root)
-title_frm.grid(row=0, column=0, columnspan=5)
+title_frm = tk.Frame(root)
+title_frm.pack(side="top")
 
 # title label
 title_lbl = ttk.Label(
@@ -70,16 +59,23 @@ directions_lbl.pack(
 )
 
 
+# frame for BOTH input and fonts
+big_frm = tk.Frame(root)
+big_frm.pack(side="top")
+# big frame grid
+big_frm.rowconfigure(0, weight=1)
+big_frm.columnconfigure(0, weight=3)
+big_frm.columnconfigure(1, weight=2)
 
 # make Entry/Buttons Frame - input text
-in_frm = tk.Frame(root)
-in_frm.grid(row=1, column=0, columnspan=3, sticky=tk.NSEW)
-# in frame grid
+in_frm = tk.Frame(big_frm)
+in_frm.grid(row=0, column=0, sticky=tk.NSEW)
+# in_ frame grid
+in_frm.rowconfigure(0, weight=1)
+in_frm.rowconfigure(1, weight=1)
 in_frm.columnconfigure(0, weight=1)
 in_frm.columnconfigure(1, weight=1)
 in_frm.columnconfigure(2, weight=1)
-in_frm.rowconfigure(0, weight=1)
-in_frm.rowconfigure(1, weight=1)
 
 # Entry
 input_txt = tk.StringVar(value="teext")
@@ -137,8 +133,8 @@ info_btn.grid(row=1, column=2, sticky=tk.NSEW)
 
 
 # make Listbox/Scrollbar Frame - font choose
-font_frm = ttk.Frame(root)
-font_frm.grid(row=1, column=3, columnspan=2, sticky=tk.NSEW)
+font_frm = tk.Frame(big_frm)
+font_frm.grid(row=0, column=1, sticky=tk.NSEW)
 
 # font list
 ASCII_FONTS = list(set(art.FONT_NAMES) - set(art.NON_ASCII_FONTS))
@@ -187,18 +183,19 @@ font_lbox.bind('<<ListboxSelect>>', font_selected)
 
 # make Text Label and Frame - ascii output
 out_frm = ttk.Frame(root)
-out_frm.grid(row=2, column=0, columnspan=5, sticky=tk.NSEW)
+out_frm.pack(expand=True, fill="both")
 
 my_text = art.text2art(input_txt.get(), font=cur_font)
 
-out_lbl = ttk.Label(
+out_lbl = tk.Label(
     out_frm, 
-    font=("Consolas", 8),
+    font=("Consolas", 1),
     text=my_text,
-    anchor=tk.CENTER
+    anchor=tk.CENTER,
+    bg="white"
 )
 out_lbl.pack(
-    fill="both",
+    fill="x",
     expand=True,
     side="top"
 )
@@ -227,11 +224,6 @@ bottom_lbl = ttk.Label(
     textvariable=bottom_str,
     anchor=tk.CENTER
 )
-bottom_lbl.grid(
-    row=3,
-    column=0,
-    columnspan=5,
-    sticky=tk.NSEW
-)
+bottom_lbl.pack(side="bottom")
 
 root.mainloop()
